@@ -6,14 +6,13 @@ This repo contains the data, functions, and scripts needed to run our final proj
 
 ### How to clone this repo into your Hamming directory:
 
-1. Login to Hamming
-2. Ensure you are in home directory by running bash command: *cd $HOME*
-3. Create a "COMP3" directory by running bash command: *mkdir COMP3*
-4. Navigate into "COMP3" directory by running bash command: *cd COMP3*
-5. Clone this repo into your "COMP3" directory by running bash command: *git clone https://github.com/KurtPask/Comp3-FinalProject*
-
+1. Open a Hamming session
+2. Ensure you are in home directory by running bash command: ```cd $HOME```
+3. Clone this repo into your "COMP3" directory by running bash command: ```git clone https://github.com/KurtPask/Comp3-FinalProject```
+4. After the download is completed (*will take a minute or two*), confirm repo is cloned by running bash command: ```ls Comp3-FinalProject``` which should reveal the same files and folders you can see in this repo.
+   
 ### How to run the .sh script
 
-To run the default settings already included in the repo, just run the bash command *sbatch $HOME/COMP3/HPC_batch.sh*
+To run the default settings already included in the repo, all you need to do now is run the bash command ```sbatch $HOME/Comp3-FinalProject/HPC_batch.sh```
 
-If you want to alter the parameters used, you can adjust the *HPC_parameters.csv* file with the parameter changes you want. You must then ensure the *HPC_batch.sh* script gets updated if you change the number of indices used (currently its 99).
+If you want to alter the parameters used, you can adjust the ```HPC_parameters.csv``` file with the parameter changes you want. You must then ensure the ```HPC_batch.sh``` script gets updated if you change the number of indices used (currently its 99).
