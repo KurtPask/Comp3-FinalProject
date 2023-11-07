@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --array=1-100
+#SBATCH --array=1-99
 
 . /etc/profile
 module load lang/python/3.8.11
