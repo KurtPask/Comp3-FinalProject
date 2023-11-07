@@ -8,9 +8,13 @@ import sys # used to get argument
 import json # used to store outputs
 import os # used to get current file directory
 
+# -- build parameter file path --
+home_directory = os.path.expanduser("~") # get home directory
+param_file_path = os.path.join(home_directory, "Comp3-FinalProject", "hpc_parameters.csv") # build file path w/ home_directory in mind
+
 # -- get parameters --
 index = int(sys.argv[1]) # index == first command line argument
-df_params = pd.read_csv('hpc_parameters.csv') # load parameters CSV
+df_params = pd.read_csv(param_file_path) # load parameters CSV
 row_params = df_params[df_params['index']==index].to_dict() # get the row corresponding to the index argument
 p_filters = row_params['num_filters'][index-1] # defines number of convolution layers to include in the first convolutional layer
 p_dataset = row_params['dataset'][index-1] # get datasets, 1=MNIST, 2=SVHN, 3=CIFAR
@@ -43,7 +47,6 @@ dict_outputs = {'loss':loss,
                 'acc':acc,
                 'dataset':p_dataset,
                 'p_filters':p_filters} # store key data outputs as a dictionary
-home_directory = os.path.expanduser("~") # get home directory
-file_path = os.path.join(home_directory, "Comp3-FinalProject", "data_outputs") # build file path w/ home_directory in mind
-with open(f"{file_path}/final_outputs_{index}.json", "w") as outfile: # open/create a JSON to store the data outputs 
+output_file_path = os.path.join(home_directory, "Comp3-FinalProject", "data_outputs") # build file path w/ home_directory in mind
+with open(f"{output_file_path}/final_outputs_{index}.json", "w") as outfile: # open/create a JSON to store the data outputs 
     json.dump(dict_outputs, outfile) # dump dictionary into file
