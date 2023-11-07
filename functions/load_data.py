@@ -241,12 +241,12 @@ def load_CIFAR_data(desired_classes = [7,8]):
     data_file_path = os.path.abspath(os.path.join(script_dir, '..', 'data', 'CIFAR')) # use .. to go up then back down to data/CIFAR folder
     
     # - unpickle data - 
-    batch1 = unpickle(data_file_path + '\\data_batch_1') # unpickle batch 1
-    batch2 = unpickle(data_file_path + '\\data_batch_2') # unpickle batch 2
-    batch3 = unpickle(data_file_path + '\\data_batch_3') # unpickle batch 3
-    batch4 = unpickle(data_file_path + '\\data_batch_4') # unpickle batch 4
-    batch5 = unpickle(data_file_path + '\\data_batch_5') # unpickle batch 5
-    test = unpickle(data_file_path + '\\test_batch') # unpickle testing batch
+    batch1 = unpickle(data_file_path + '/data_batch_1') # unpickle batch 1
+    batch2 = unpickle(data_file_path + '/data_batch_2') # unpickle batch 2
+    batch3 = unpickle(data_file_path + '/data_batch_3') # unpickle batch 3
+    batch4 = unpickle(data_file_path + '/data_batch_4') # unpickle batch 4
+    batch5 = unpickle(data_file_path + '/data_batch_5') # unpickle batch 5
+    test = unpickle(data_file_path + '/test_batch') # unpickle testing batch
 
     # - convert unpickled data to numpy arrays - 
     x_train = np.concatenate((batch1[b'data'], batch2[b'data'], batch3[b'data'], batch4[b'data'], batch5[b'data']), axis=0) # concatenate and convert training input data to 1 large numpy array
@@ -289,13 +289,13 @@ def load_SVHN_data(desired_classes = [0,1]):
     data_file_path = os.path.abspath(os.path.join(script_dir, '..', 'data', 'SVHN')) # use .. to go up then back down to data/SVHN folder
     
     # - load saved numpy binary files for label data - 
-    y_train = np.load(data_file_path + f'\\SVHN_y_train.npy') # use np.load w/ file path to read .npy file
-    y_test = np.load(data_file_path + f'\\SVHN_y_test.npy') # use np.load w/ file path to read .npy file
+    y_train = np.load(data_file_path + f'/SVHN_y_train.npy') # use np.load w/ file path to read .npy file
+    y_test = np.load(data_file_path + f'/SVHN_y_test.npy') # use np.load w/ file path to read .npy file
 
     # - load input data (big loop because had to save in many batches)
     for i in range(40): # loop through all 40 files
-        path_train = data_file_path + f'\\SVHN_x_train{i}.npy' # path to use given i
-        path_test = data_file_path + f'\\SVHN_x_test{i}.npy' # path to use given i
+        path_train = data_file_path + f'/SVHN_x_train{i}.npy' # path to use given i
+        path_test = data_file_path + f'/SVHN_x_test{i}.npy' # path to use given i
         if i == 0: # if first file
             x_train = np.load(path_train) # use np.load w/ file path to read .npy file
             x_test = np.load(path_test) # use np.load w/ file path to read .npy file
@@ -340,10 +340,10 @@ def load_MNIST_data(desired_classes = [1,4]):
     data_file_path = os.path.abspath(os.path.join(script_dir, '..', 'data', 'MNIST')) # use .. to go up then back down to data/MNIST folder
 
     # - define file paths - 
-    training_images_filepath = data_file_path + '\\train-images.idx3-ubyte' # training input data path
-    training_labels_filepath = data_file_path + '\\train-labels.idx1-ubyte' # training label data path
-    test_images_filepath = data_file_path + '\\t10k-images.idx3-ubyte' # testing input data path
-    test_labels_filepath = data_file_path + '\\t10k-labels.idx1-ubyte' # testing label data path
+    training_images_filepath = data_file_path + '/train-images.idx3-ubyte' # training input data path
+    training_labels_filepath = data_file_path + '/train-labels.idx1-ubyte' # training label data path
+    test_images_filepath = data_file_path + '/t10k-images.idx3-ubyte' # testing input data path
+    test_labels_filepath = data_file_path + '/t10k-labels.idx1-ubyte' # testing label data path
 
     # - use special helper function to read in data - 
     x_train, y_train = read_images_labels(training_images_filepath, training_labels_filepath, desired_classes) # use helper function to load training data w/ given classes
