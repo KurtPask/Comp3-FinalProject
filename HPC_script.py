@@ -44,6 +44,6 @@ dict_outputs = {'loss':loss,
                 'dataset':p_dataset,
                 'p_filters':p_filters} # store key data outputs as a dictionary
 home_directory = os.path.expanduser("~") # get home directory
-file_path = os.path.join(home_directory, "COMP3", "data_outputs") # build file path w/ home_directory in mind
+file_path = os.path.join(home_directory, "Comp3-FinalProject", "data_outputs") # build file path w/ home_directory in mind
 with open(f"{file_path}/final_outputs_{index}.json", "w") as outfile: # open/create a JSON to store the data outputs 
     json.dump(dict_outputs, outfile) # dump dictionary into file
