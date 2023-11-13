@@ -302,10 +302,10 @@ def load_SVHN_data(desired_classes = [0,1]):
             x_train = load(path_train) # use np.load w/ file path to read .npy file
             x_test = load(path_test) # use np.load w/ file path to read .npy file
         elif i < 20: # only had 20 test files so we need a stop here for that fact
-            x_train = concatenate((x_train, np.load(path_train))) # use np.load w/ file path to read .npy file, then concatenate with already loaded data
-            x_test = concatenate((x_test, np.load(path_test))) # use np.load w/ file path to read .npy file, then concatenate with already loaded data
+            x_train = concatenate((x_train, load(path_train))) # use np.load w/ file path to read .npy file, then concatenate with already loaded data
+            x_test = concatenate((x_test, load(path_test))) # use np.load w/ file path to read .npy file, then concatenate with already loaded data
         else: # finish training input data loading
-            x_train = concatenate((x_train, np.load(path_train))) # use np.load w/ file path to read .npy file, then concatenate with already loaded data
+            x_train = concatenate((x_train, load(path_train))) # use np.load w/ file path to read .npy file, then concatenate with already loaded data
 
     # - filter and re-scale the data - 
     x_train, y_train = filter_arrays(x_train, y_train, desired_classes) # use filter_arrays w/ training data
