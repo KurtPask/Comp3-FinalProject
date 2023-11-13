@@ -21,7 +21,9 @@ Functions:
 
 
 # - imports -
-import numpy as np
+#import numpy as np
+from numpy import vstack, concatenate, arange, random, isin, divide, subtract, reshape, squeeze, unique, load
+from numpy import array as np_array
 import pickle
 import os
 import struct
@@ -58,12 +60,12 @@ def shuffle_data(x_train, x_test, y_train, y_test):
     train_size = x_train.shape[0] # log size of the training side of the data for re-splitting later
 
     # - combine the data - 
-    combined_data = np.vstack((x_train, x_test)) # stack arrays in sequence vertically (row wise)
-    combined_labels = np.concatenate((y_train, y_test)) # join a sequence of arrays along an existing axis
+    combined_data = vstack((x_train, x_test)) # stack arrays in sequence vertically (row wise)
+    combined_labels = concatenate((y_train, y_test)) # join a sequence of arrays along an existing axis
 
     # - shuffle the combined data and labels in the same order -
-    shuffled_indices = np.arange(combined_data.shape[0]) # return evenly spaced values within a given interval. In this case [0, 1, ..., combined_data.shape[0]]
-    np.random.shuffle(shuffled_indices) # shuffles numbers from above array build
+    shuffled_indices = arange(combined_data.shape[0]) # return evenly spaced values within a given interval. In this case [0, 1, ..., combined_data.shape[0]]
+    random.shuffle(shuffled_indices) # shuffles numbers from above array build
 
     shuffled_data = combined_data[shuffled_indices] # using shuffled_indices array as a mask to re-map the training data
     shuffled_labels = combined_labels[shuffled_indices] # using shuffled_indices array as a mask to re-map the label data
@@ -98,13 +100,13 @@ def filter_arrays(x, y, desired_classes):
         filtered label data
     '''
     # - fiter the data -
-    mask = np.isin(y, desired_classes) # boolean mask where True's are in desired_classes and False's are not
+    mask = isin(y, desired_classes) # boolean mask where True's are in desired_classes and False's are not
     x = x[mask] # apply mask to x
     y = y[mask] # apply mask to y
     
     # - re-scale the input data - 
-    x = np.divide(x, 255) # divide x data by 255. Puts input data on scale of [0,1]
-    x = np.subtract(x, 0.5) # subtract 0.5 to put input on scale of [-.5, .5]
+    x = divide(x, 255) # divide x data by 255. Puts input data on scale of [0,1]
+    x = subtract(x, 0.5) # subtract 0.5 to put input on scale of [-.5, .5]
 
     # - format y based on length of desired_classes - 
     if len(desired_classes) == 2: # if only 2 classes given
@@ -154,10 +156,10 @@ def read_mat_files(file_path, desired_classes = [1, 4]):
         filtered label data
     ''' 
     f = loadmat(file_path) # use special loadmat method to read data. comes in as a dictionary
-    x = np.reshape(f['X'], (32 * 32 * 3, f['X'].shape[3])).T # messy line of code that simply reshapes x data into a flat array and turns into numpy array
-    y = np.subtract(np.squeeze(f['y']), 2) # squeezes an unneeded dimension out of label data and subtracts 2
+    x = reshape(f['X'], (32 * 32 * 3, f['X'].shape[3])).T # messy line of code that simply reshapes x data into a flat array and turns into numpy array
+    y = subtract(squeeze(f['y']), 2) # squeezes an unneeded dimension out of label data and subtracts 2
     y[y==255] = 9 # there is a quirk where 1 class label comes out as 255 so this auto-adjusts
-    print(np.unique(y)) # print out unique labels for validation
+    print(unique(y)) # print out unique labels for validation
     x, y = filter_arrays(x, y, desired_classes) # use filter_arrays to filter x and y
 
     return x, y
@@ -201,13 +203,13 @@ def read_images_labels(images_filepath, labels_filepath, desired_classes):
     for i in range(size): # iterate over size of input data
         images.append([0] * rows * cols) # initial a bunch of 0 vectors
     for i in range(size): # iterate over size of input data
-        img = np.array(image_data[i * rows * cols:(i + 1) * rows * cols]) # can't remember this one...
+        img = np_array(image_data[i * rows * cols:(i + 1) * rows * cols]) # can't remember this one...
         img = img.reshape(28, 28) # single image is (28,28) shaped
         images[i][:] = img # update i's 0 vector w/ image data.
     
-    x = np.array(images) # convert input data list to numpy array
+    x = np_array(images) # convert input data list to numpy array
     x = x.reshape(x.shape[0], -1) # flatten
-    y = np.array(labels) # convery label array into numpy array
+    y = np_array(labels) # convery label array into numpy array
     x, y = filter_arrays(x, y, desired_classes) # use filter_arrays w/ training data
 
     return x, y
@@ -249,10 +251,10 @@ def load_CIFAR_data(desired_classes = [7,8]):
     test = unpickle(data_file_path + '/test_batch') # unpickle testing batch
 
     # - convert unpickled data to numpy arrays - 
-    x_train = np.concatenate((batch1[b'data'], batch2[b'data'], batch3[b'data'], batch4[b'data'], batch5[b'data']), axis=0) # concatenate and convert training input data to 1 large numpy array
-    y_train = np.array(batch1[b'labels'] + batch2[b'labels'] + batch3[b'labels'] + batch4[b'labels'] + batch5[b'labels']) # concatenate and convert training label data to 1 large numpy array
-    x_test = np.array(test[b'data']) # read in and convert testing input data
-    y_test = np.array(test[b'labels']) # read in and convert testing label data
+    x_train = concatenate((batch1[b'data'], batch2[b'data'], batch3[b'data'], batch4[b'data'], batch5[b'data']), axis=0) # concatenate and convert training input data to 1 large numpy array
+    y_train = np_array(batch1[b'labels'] + batch2[b'labels'] + batch3[b'labels'] + batch4[b'labels'] + batch5[b'labels']) # concatenate and convert training label data to 1 large numpy array
+    x_test = np_array(test[b'data']) # read in and convert testing input data
+    y_test = np_array(test[b'labels']) # read in and convert testing label data
 
     # - filter and re-scale the data - 
     x_train, y_train = filter_arrays(x_train, y_train, desired_classes) # use filter_arrays w/ training data
@@ -289,21 +291,21 @@ def load_SVHN_data(desired_classes = [0,1]):
     data_file_path = os.path.abspath(os.path.join(script_dir, '..', 'data', 'SVHN')) # use .. to go up then back down to data/SVHN folder
     
     # - load saved numpy binary files for label data - 
-    y_train = np.load(data_file_path + f'/SVHN_y_train.npy') # use np.load w/ file path to read .npy file
-    y_test = np.load(data_file_path + f'/SVHN_y_test.npy') # use np.load w/ file path to read .npy file
+    y_train = load(data_file_path + f'/SVHN_y_train.npy') # use np.load w/ file path to read .npy file
+    y_test = load(data_file_path + f'/SVHN_y_test.npy') # use np.load w/ file path to read .npy file
 
     # - load input data (big loop because had to save in many batches)
     for i in range(40): # loop through all 40 files
         path_train = data_file_path + f'/SVHN_x_train{i}.npy' # path to use given i
         path_test = data_file_path + f'/SVHN_x_test{i}.npy' # path to use given i
         if i == 0: # if first file
-            x_train = np.load(path_train) # use np.load w/ file path to read .npy file
-            x_test = np.load(path_test) # use np.load w/ file path to read .npy file
+            x_train = load(path_train) # use np.load w/ file path to read .npy file
+            x_test = load(path_test) # use np.load w/ file path to read .npy file
         elif i < 20: # only had 20 test files so we need a stop here for that fact
-            x_train = np.concatenate((x_train, np.load(path_train))) # use np.load w/ file path to read .npy file, then concatenate with already loaded data
-            x_test = np.concatenate((x_test, np.load(path_test))) # use np.load w/ file path to read .npy file, then concatenate with already loaded data
+            x_train = concatenate((x_train, np.load(path_train))) # use np.load w/ file path to read .npy file, then concatenate with already loaded data
+            x_test = concatenate((x_test, np.load(path_test))) # use np.load w/ file path to read .npy file, then concatenate with already loaded data
         else: # finish training input data loading
-            x_train = np.concatenate((x_train, np.load(path_train))) # use np.load w/ file path to read .npy file, then concatenate with already loaded data
+            x_train = concatenate((x_train, np.load(path_train))) # use np.load w/ file path to read .npy file, then concatenate with already loaded data
 
     # - filter and re-scale the data - 
     x_train, y_train = filter_arrays(x_train, y_train, desired_classes) # use filter_arrays w/ training data
