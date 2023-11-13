@@ -13,6 +13,7 @@ This repo contains the data, functions, and scripts needed to run our final proj
    
 ### How to run the .sh script
 
-To run the default settings already included in the repo, all you need to do now is run the bash command ```sbatch $HOME/Comp3-FinalProject/HPC_batch.sh```
+1. First, navigate into the new folder created by running this bash command: ```cd Comp3-FinalProject```
+2. Next, run this bash command in submit the batch job: ```sbatch HPC_batch.sh```
 
 If you want to alter the parameters used, you can adjust the ```HPC_parameters.csv``` file with the parameter changes you want. You must then ensure the ```HPC_batch.sh``` script gets updated if you change the number of indices used (currently its 99).
