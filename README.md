@@ -2,7 +2,7 @@
 
 This repo contains the data, functions, and scripts needed to run our final project files in our HPC environment.
 
-### Intended use: Log into Hamming, clone repo into a "COMP3" folder, and then run .sh script
+### Intended use: Log into Hamming, clone repo into your directory on Hamming, and then run .sh script
 
 ### How to clone this repo into your Hamming directory:
 
