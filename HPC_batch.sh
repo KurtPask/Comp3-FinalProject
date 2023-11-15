@@ -1,7 +1,9 @@
 #!/bin/bash
-#SBATCH --array=1-99
+#SBATCH --array=1-100
 #SBATCH --output=batch_print_outputs/out_%a.txt
-#SBATCH --mem-per-cpu=1000M
+#SBATCH --mem-per-cpu=2000M
+#SBATCH --cpus-per-task=1
+#SBATCH --time=02:00:00
 
 . /etc/profile
 module load lang/python/3.8.11
